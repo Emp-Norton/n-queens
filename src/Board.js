@@ -18,6 +18,12 @@
       }
     },
 
+    log: function(){
+        for (var i =0; i < this.attributes[0].length; i++){
+            console.log(b.attributes[i])
+        }
+    },
+
     rows: function() {
       return _(_.range(this.get('n'))).map(function(rowIndex) {
         return this.get(rowIndex);
@@ -110,13 +116,6 @@
         col.push(this.attributes[rIdx][colIndex]);
       }
       return col.reduce((sum, num) => sum += num) > 1;
-      //   for (var cIdx = 0; cIdx < this.attributes[0].length; cIdx++){
-      //     if (col === 1){
-      //       count++;
-      //     }
-      //   }
-      //   return count > 1;
-      // }
     },
 
     // test if any columns on this board contain conflicts
@@ -134,7 +133,6 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      // row - col
       var count = 0;
       var diagSig = majorDiagonalColumnIndexAtFirstRow;
        for (var r = 0; r < this.attributes[0].length; r++){
@@ -167,12 +165,29 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var count = 0;
+      var diagSig = minorDiagonalColumnIndexAtFirstRow;
+       for (var r = 0; r < this.attributes[0].length; r++){
+         for (var c = 0; c < this.attributes[0].length; c++){
+            if (this.attributes[r][c] === 1 ){
+                count++
+                console.log(count)
+            }
+         }
+       }
+       return count > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      for (var rIdx = 0; rIdx < this.attributes[0].length; rIdx++){
+        for (var cIdx = 0; cIdx < this.attributes[0].length; cIdx++){
+          if (this.attributes[rIdx][cIdx] === 1){
+            if (this.hasMinorDiagonalConflictAt(rIdx + cIdx)) return true;
+          }   
+        }
+      }
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
@@ -189,3 +204,8 @@
   };
 
 }());
+
+// var b = new Board({n:5});
+// b.get(0)[3] = 1;
+// b.get(3)[0] = 1;
+
