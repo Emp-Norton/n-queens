@@ -88,7 +88,7 @@
       var row = this.attributes[rowIndex];
       var count = 0;
       for (var colIdx = 0; colIdx < this.attributes[0].length; colIdx++){
-        if (row[colIdx] === 1){ // should this check for presence of 1, or for more than 1 "1"?
+        if (row[colIdx] === 1){ 
           count++
         }
       }
