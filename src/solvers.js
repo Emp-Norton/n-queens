@@ -30,26 +30,22 @@
 // return
 window.findNRooksSolution = function(n) {
   var solution = undefined;
-  var board = new Board({n:n});
+  var board = new Board({n: n});
 
   var boardRecurse = function (r) {
     if (r === board.attributes.n) {
-debugger;
       solution = board.rows();
-      return board.rows()
+      return board.rows();
     }
 
     for (var c = 0; c < board.attributes.n; c++) {
       board.togglePiece(r, c);
-      if (!board.hasAnyRowConflicts() && !board.hasAnyColConflicts()) {
-        // var justPlaced = [r, c];
+      if (!board.hasAnyColConflicts()) {
         return boardRecurse(r + 1);
-        board.togglePiece(r, c);
-      } else {
-        board.togglePiece(r, c);
-      }
+      } 
+      board.togglePiece(r, c);
     }
-  }
+  };
   return boardRecurse(0);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
 };
@@ -59,30 +55,22 @@ window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
   var board = new Board({n: n});
 
-
-  var columnRecurse = function(n, row, col){
-    var row = row || 0;
-    if (col === n){
+  var columnRecurse = function(row) {
+    if (row === n) {
       solutionCount++;
-      return
+      return;
     }
 
-    for (var c = col; c < n; c++){
-      console.log(`Row ${row} Col ${c}`)
+    for (var c = 0; c < n; c++) {
       board.togglePiece(row, c);
-      if (!board.hasAnyRowConflicts() && !board.hasAnyColConflicts()){
-          columnRecurse(n, row + 1, c);
-         board.togglePiece(row, c);
-      } else {
-        board.togglePiece(row, c);
-      }
-    }
+      if (!board.hasAnyColConflicts()) {
+        columnRecurse(row + 1);
+      } 
+      board.togglePiece(row, c);
+    } 
   };
 
-  for (var startCol = 0; startCol < n; startCol++){
-     columnRecurse(n, 0, startCol);
-  }
-
+  columnRecurse(0);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
