@@ -93,7 +93,7 @@
     hasAnyRowConflicts: function() {
       // access board rows/COLUMNS
       // for each row call hasRowConflictAt
-      for (var i = 0; i < this.attributes[0].length; i++) {
+      for (var i = 0; i < this.attributes.n; i++) {
         if (this.hasRowConflictAt(i)) {
           return true;
         }
@@ -109,7 +109,7 @@
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       var counter = 0;
-      for (var i = 0; i < this.attributes[0].length; i++) {
+      for (var i = 0; i < this.attributes.n; i++) {
         if (this.attributes[i][colIndex] === 1) {
           counter++;
         }
@@ -120,7 +120,7 @@
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       // iterate through each column
-      for (var i = 0; i < this.attributes[0].length; i++) {
+      for (var i = 0; i < this.attributes.n; i++) {
         if (this.hasColConflictAt(i)) {
           return true;
         }
@@ -136,10 +136,10 @@
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(digSig) {
       var count = 0;
-      for (var r = 0; r < this.attributes[0].length; r++) {
-        for (var c = 0; c < this.attributes[0].length; c++) {
+      for (var r = 0; r < this.attributes.n; r++) {
+        for (var c = 0; c < this.attributes.n; c++) {
           if (this.attributes[r][c] === 1) {
-            if (r - c === digSig) {
+            if (c - r === digSig) {
               count += 1;
             }
           }
@@ -150,10 +150,10 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      for (var r = 0; r < this.attributes[0].length; r++) {
-        for (var c = 0; c < this.attributes[0].length; c++) {
+      for (var r = 0; r < this.attributes.n; r++) {
+        for (var c = 0; c < this.attributes.n; c++) {
           if (this.attributes[r][c] === 1) {
-            if (this.hasMajorDiagonalConflictAt(r - c)) {
+            if (this.hasMajorDiagonalConflictAt(c - r)) {
               return true;
             }
           }
@@ -170,8 +170,8 @@
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(digSig) {
       var count = 0;
-      for (var r = 0; r < this.attributes[0].length; r++) {
-        for (var c = 0; c < this.attributes[0].length; c++) {
+      for (var r = 0; r < this.attributes.n; r++) {
+        for (var c = 0; c < this.attributes.n; c++) {
           if (this.attributes[r][c] === 1) {
             if (r + c === digSig) {
               count += 1;
@@ -184,8 +184,8 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      for (var r = 0; r < this.attributes[0].length; r++) {
-        for (var c = 0; c < this.attributes[0].length; c++) {
+      for (var r = 0; r < this.attributes.n; r++) {
+        for (var c = 0; c < this.attributes.n; c++) {
           if (this.attributes[r][c] === 1) {
             if (this.hasMinorDiagonalConflictAt(r + c)) {
               return true;
