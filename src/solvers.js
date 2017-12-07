@@ -31,27 +31,28 @@
 window.findNRooksSolution = function(n) {
   var solution = undefined;
   var board = new Board({n:n});
-  return 1
 
   var recurse = function (r) {
-    if (r === board.attributes[0].length) {
-      return board.attributes;
+    if (r === board.attributes.n) {
+debugger;
+      solution = board.rows();
+      return board.rows()
     }
-    for (var c = 0; c < board.length; c++) {
+
+    for (var c = 0; c < board.attributes.n; c++) {
       board.togglePiece(r, c);
       if (!board.hasAnyRowConflicts() && !board.hasAnyColConflicts()) {
-        var justPlaced = [r, c];
-        recurse(r + 1);
+        // var justPlaced = [r, c];
+        return recurse(r + 1);
         board.togglePiece(r, c);
       } else {
         board.togglePiece(r, c);
       }
     }
-    return;
+     ;
   }
+  return recurse(0);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  recurse(0)
-  return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
