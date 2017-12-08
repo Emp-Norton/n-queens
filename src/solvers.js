@@ -10,24 +10,6 @@
 // (There are also optimizations that will allow you to skip a lot of the dead search space)
 // take a look at solversSpec.js to see what the tests are expecting
 
-
-// return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
-// option 1
-// iterate through rows, passing row index into traverse helper
-  // for each column in row, toggle piece
-  //check for row and column collision,
-    // if none
-    // if collision, toggle piece back
-
-// recurse accepts a row index,
-// basecase is if row index === n
-  // set solution to board & return
-// for each column
-  // toggle piece, check for collisions
-    // if no collisions
-      //recurse(r + 1)
-    // if collision, untoggle
-// return
 window.findNRooksSolution = function(n) {
   var solution = undefined;
   var board = new Board({n: n});
@@ -96,7 +78,6 @@ window.findNQueensSolution = function(n) {
         if(solution) {
          return solution;
         }
-        // board.togglePiece(row, col); doesnt ever get executed
       }
       board.togglePiece(row, col);
     }
@@ -107,8 +88,34 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
+  var board = new Board({n: n});
 
+  if (n === 2 || n === 3) {
+    return 0;
+  }
+
+  var columnRecurse = function(row) {
+    if (row === n) {
+      solutionCount++;
+      return
+    }
+    for (var col = 0; col < n; col++) {
+      board.togglePiece(row, col);
+debugger;
+      if (!board.hasAnyColConflicts() && !board.hasAnyRowConflicts() && !board.hasAnyMinorDiagonalConflicts() && !board.hasAnyMajorDiagonalConflicts()) {
+        columnRecurse(row + 1); 
+      }
+      board.togglePiece(row, col);
+debugger;
+    }
+  };
+  columnRecurse(0);
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
+
+
+
+
+
